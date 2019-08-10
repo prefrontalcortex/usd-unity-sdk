@@ -46,8 +46,8 @@ namespace Unity.Formats.USD {
             //   - a RenderTexture
             //   => need to blit / export
 
-            //Debug.Log("Trying to export texture - " + textureName + " - " + textureOutput);
-
+            // need to keep track of exported textures + applied conversions to not duplicate data
+            
             bool textureIsExported = false;
 
             string filePath = null;
@@ -134,14 +134,34 @@ namespace Unity.Formats.USD {
 
                 var uvReader = new PrimvarReaderSample<Vector2>();
                 uvReader.varname.defaultValue = new TfToken("st");
+
                 scene.Write(usdShaderPath + "/uvReader", uvReader);
                 var tex = new TextureReaderSample(filePath, usdShaderPath + "/uvReader.outputs:result");
+                tex.wrapS = new Connectable<TextureReaderSample.WrapMode>(WrapMode(texture.wrapModeU));
+                tex.wrapT = new Connectable<TextureReaderSample.WrapMode>(WrapMode(texture.wrapModeV));
+
                 scene.Write(usdShaderPath + "/" + textureName, tex);
                 return usdShaderPath + "/" + textureName + ".outputs:" + textureOutput;
             }
             else
                 throw new System.Exception("Texture wasn't exported.");
+        }
+
+        static TextureReaderSample.WrapMode WrapMode(TextureWrapMode wrap)
+        {
+            switch (wrap)
+            {
+                case TextureWrapMode.Repeat:
+                    return TextureReaderSample.WrapMode.Repeat;
+                case TextureWrapMode.Clamp:
+                    return TextureReaderSample.WrapMode.Clamp;
+                case TextureWrapMode.Mirror:
+                case TextureWrapMode.MirrorOnce:
+                    return TextureReaderSample.WrapMode.Mirror;
+                default:
+                    return TextureReaderSample.WrapMode.Black;
+            }
+        }
     }
-  }
 
 }
