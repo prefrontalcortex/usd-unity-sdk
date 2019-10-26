@@ -49,6 +49,15 @@ namespace Unity.Formats.USD
                 Scene scene = ExportHelpers.InitForSave(Path.Combine(tmpDirPath, usdcFileName));
                 Vector3 localScale = root.transform.localScale;
 
+                // HACK for supporting audio export in QuickExport for scenes without animation.
+                // Ideally, we should look for audio files beforehand or give explicit control over stage length.
+                var audioSources = root.GetComponentsInChildren<AudioSource>();
+                var length = 0f;
+                foreach (var source in audioSources) {
+                    length = Mathf.Max(length, source ? source.clip ? source.clip.length : 0 : 0);
+                }
+                scene.EndTime = length * UsdRecorderBehaviour.kExportFrameRate;
+
                 try
                 {
                     // USDZ is in centimeters.

@@ -39,7 +39,7 @@ namespace Unity.Formats.USD
         /// <returns>
         /// Returns the path to the USD texture object.
         /// </returns>
-        protected static string SetupTexture(Scene scene,
+        public static string SetupTexture(Scene scene,
             string usdShaderPath,
             Material material,
             PreviewSurfaceSample surface,
@@ -71,7 +71,10 @@ namespace Unity.Formats.USD
 
             var srcTexture2d = material.GetTexture(textureName);
 
+            #pragma warning disable 219 // always false in Editor
             bool needsConversion = false;
+            #pragma warning restore
+
             switch (conversionType)
             {
                 case ConversionType.None:

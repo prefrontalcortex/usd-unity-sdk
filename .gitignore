@@ -73,3 +73,6 @@ TestProject/**/*.csproj
 TestProject/**/*.sln
 TestProject/Usd-Development/Library
 build_usdcs
+TestProject/.vs
+package/com.unity.formats.usd/Runtime/Scripts/IO/Geometry/.idea
+TestProject/Exports

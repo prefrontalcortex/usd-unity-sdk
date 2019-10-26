@@ -27,7 +27,7 @@ namespace Unity.Formats.USD
     public class UsdRecorderBehaviour : PlayableBehaviour
     {
         // Conversion to keyframes (60 frames per second) to work around QuickLook bug
-        const int kExportFrameRate = 60;
+        internal const int kExportFrameRate = 60;
         bool m_isPaused = false;
         public UsdRecorderClip Clip;
         string usdcFileName;
@@ -169,7 +169,8 @@ namespace Unity.Formats.USD
                     Directory.SetCurrentDirectory(usdzTemporaryDir.FullName);
 
                 Clip.Context = new ExportContext();
-                Clip.UsdScene.EndTime = currentTime * kExportFrameRate;
+                var endTime = Clip.overrideEndTime ? (Clip.endTime * kExportFrameRate) : currentTime * kExportFrameRate;
+                Clip.UsdScene.EndTime = endTime;
                 // In a real exporter, additional error handling should be added here.
                 if (!string.IsNullOrEmpty(Clip.m_usdFile))
                 {
