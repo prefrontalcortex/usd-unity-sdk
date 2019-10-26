@@ -21,7 +21,7 @@
       "usdz",
       "pipeline"
     ],
-    "name": "com.unity.formats.usd",
+    "name": "com.pfc.com.unity.formats.usd",
     "repoPackagePath": "package/com.unity.formats.usd",
     "repository": {
         "type": "git",

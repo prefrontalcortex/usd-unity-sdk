@@ -1,3 +1,8 @@
+# Changes in pfc Version
+
+## [1.0.1-preview.2] - 2019-10-26
+- released as pfc package with custom fixes
+
 # Changes in usd-unitysdk for Unity
 
 ## [Unreleased] - 2020-10-27
