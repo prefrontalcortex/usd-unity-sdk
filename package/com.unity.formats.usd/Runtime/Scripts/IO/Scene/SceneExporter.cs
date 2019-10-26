@@ -279,6 +279,7 @@ namespace Unity.Formats.USD
                     {
                         if (!go.gameObject.activeSelf)
                         {
+                            var prim = scene.GetPrimAtPath(path);
                             switch (context.activePolicy)
                             {
                                 case ActiveExportPolicy.Ignore:
@@ -287,7 +288,8 @@ namespace Unity.Formats.USD
 
                                 case ActiveExportPolicy.ExportAsVisibility:
                                     // Make the prim invisible.
-                                    var im = new pxr.UsdGeomImageable(scene.GetPrimAtPath(path));
+                                    if (prim == null) break;
+                                    var im = new pxr.UsdGeomImageable(prim);
                                     if (im)
                                     {
                                         im.CreateVisibilityAttr().Set(pxr.UsdGeomTokens.invisible);
@@ -300,6 +302,7 @@ namespace Unity.Formats.USD
                                     // the USD scene graph. Right now, that's too much responsibility on the caller,
                                     // because the error messages will be mysterious.
 
+                                    if (prim == null) break;
                                     // Make the prim inactive.
                                     scene.GetPrimAtPath(path).SetActive(false);
                                     break;
@@ -536,6 +539,7 @@ namespace Unity.Formats.USD
             var mr = go.GetComponent<MeshRenderer>();
             var mf = go.GetComponent<MeshFilter>();
             var cam = go.GetComponent<Camera>();
+            var audio = go.GetComponent<AudioSource>();
             Transform expRoot = context.exportRoot;
 
             var tmpPath = new pxr.SdfPath(UnityTypeConverter.GetPath(go.transform, expRoot));
@@ -617,6 +621,10 @@ namespace Unity.Formats.USD
                 CreateExportPlan(go, CreateSample<CameraSample>(context), CameraExporter.ExportCamera, context);
                 CreateExportPlan(go, CreateSample<CameraSample>(context), NativeExporter.ExportObject, context,
                     insertFirst: false);
+            }
+            else if (audio)
+            {
+                CreateExportPlan(go, CreateSample<SpatialAudioSample>(context), AudioExporter.ExportAudio, context);
             }
         }
 

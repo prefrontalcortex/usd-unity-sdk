@@ -169,7 +169,8 @@ namespace Unity.Formats.USD
                     Directory.SetCurrentDirectory(usdzTemporaryDir.FullName);
 
                 Clip.Context = new ExportContext();
-                Clip.UsdScene.EndTime = currentTime * kExportFrameRate;
+                var endTime = Clip.overrideEndTime ? (Clip.endTime * kExportFrameRate) : currentTime * kExportFrameRate;
+                Clip.UsdScene.EndTime = endTime;
                 // In a real exporter, additional error handling should be added here.
                 if (!string.IsNullOrEmpty(Clip.m_usdFile))
                 {

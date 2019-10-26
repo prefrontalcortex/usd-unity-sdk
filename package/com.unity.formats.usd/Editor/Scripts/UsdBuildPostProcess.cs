@@ -23,7 +23,7 @@ namespace Unity.Formats.USD
         [PostProcessBuildAttribute(1)]
         public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
         {
-            var source = System.IO.Path.GetFullPath("Packages/com.unity.formats.usd/Runtime/Plugins");
+            var source = System.IO.Path.GetFullPath("Packages/com.pfc.com.unity.formats.usd/Runtime/Plugins");
             var destination = "";
             if (target == BuildTarget.StandaloneLinux64)
             {

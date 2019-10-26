@@ -1,3 +1,43 @@
+# Changes in pfc Version
+
+## [1.0.3-pfc.9] - 2020-08-24
+- added experimental UsdAudio support
+  - support for looping / non-looping audio
+  - support for spatial / non-spatial audio
+  - no support for audio clips in Timeline yet;
+    needs to be an AudioSource in the scene to be exported
+
+## [1.0.3-pfc.8] - 2020-07-24
+- better PBR export for both built-in and HDRP
+- fix texture export from disk in packages
+- fix texture conversion in some edge cases
+
+## [1.0.3-pfc.7] - 2020-07-12
+- ignore test files in releases
+- fix meta file for Tests folder
+
+## [1.0.3-pfc.4] - 2020-07-07
+- fixed PBR export for standard
+- improved ChannelCombiner to combine textures on export
+- improved texture handling on export
+- removed some unnecessary logs
+- added examples for PBR export
+
+## [1.0.3-pfc.3] - 2020-04-25
+- fix InitUsd package scope (hardcoded)
+
+## [1.0.3-pfc.2] - 2020-04-24
+- fixing texture export from memory (textures that are not on disk or not supported)
+- fix QuickLook animation export
+- fix texture properties (wrap and colorization)
+- add ability to export USDZ from timeline recorder clip
+
+## [1.0.2-pfc.2] - 2020-01-16
+- re-released with com.unity scope
+
+## [1.0.1-preview.2] - 2019-10-26
+- released as pfc package with custom fixes
+
 # Changes in usd-unitysdk for Unity
 
 ## [2.0.0-exp.1] - 2020-12-21

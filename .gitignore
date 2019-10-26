@@ -64,4 +64,7 @@ TestProject/Logs
 TestProject/Assets/Plugins
 TestProject/Assets/Samples*
 inst-dbg/
+TestProject/.vs
+package/com.unity.formats.usd/Runtime/Scripts/IO/Geometry/.idea
+TestProject/Exports
 package/com.unity.formats.usd/TestRunnerOptions.json.meta

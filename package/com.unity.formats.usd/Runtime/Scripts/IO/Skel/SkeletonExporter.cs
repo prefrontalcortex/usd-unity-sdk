@@ -89,8 +89,17 @@ namespace Unity.Formats.USD
 
             // Ensure the bounds are computed in root-local space.
             // This is required because USD expects the extent to be a local bound for the SkelRoot.
-            var oldParent = objContext.gameObject.transform.parent;
-            objContext.gameObject.transform.SetParent(null, worldPositionStays: false);
+            var transf = objContext.gameObject.transform;
+            var oldParent = transf.parent;
+            // objContext.gameObject.transform.SetParent(null, worldPositionStays: false);
+            var originalScale = transf.localScale;
+            var originalPos = transf.localPosition;
+            var originalRot = transf.localRotation;
+
+            // try to normalize
+            transf.localScale *= 1 / (exportContext.scale * transf.lossyScale.x);
+            transf.position = Vector3.zero;
+            transf.rotation = Quaternion.identity;
 
             try
             {
@@ -111,7 +120,10 @@ namespace Unity.Formats.USD
             finally
             {
                 // Restore the root parent.
-                objContext.gameObject.transform.SetParent(oldParent, worldPositionStays: false);
+                // objContext.gameObject.transform.SetParent(oldParent, worldPositionStays: false);
+                transf.localScale = originalScale;
+                transf.localPosition = originalPos;
+                transf.localRotation = originalRot;
             }
 
             // Convert handedness if needed.
