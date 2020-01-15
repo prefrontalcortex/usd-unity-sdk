@@ -1,5 +1,8 @@
 # Changes in pfc Version
 
+## [1.0.2-pfc.2] - 2020-01-16
+- re-released with com.unity scope
+
 ## [1.0.1-preview.2] - 2019-10-26
 - released as pfc package with custom fixes
 
