@@ -31,13 +31,13 @@ namespace USD.NET.Unity {
     /// When using metallic workflow this is interpreted as albedo.
     /// </summary>
     [InputParameter("_DiffuseColor")]
-    public Connectable<Vector3> diffuseColor = new Connectable<Vector3>(new Vector3(0.18f, 0.18f, 0.18f));
+    public Connectable<Color> diffuseColor = new Connectable<Color>(new Color(0.18f, 0.18f, 0.18f));
 
     /// <summary>
     /// Emissive component. 
     /// </summary>
     [InputParameter("_EmissiveColor")]
-    public Connectable<Vector3> emissiveColor = new Connectable<Vector3>(Vector3.zero);
+    public Connectable<Color> emissiveColor = new Connectable<Color>(new Color(0,0,0));
 
     /// <summary>
     /// This node can fundamentally operate in two modes : Specular workflow where you provide a
@@ -53,7 +53,7 @@ namespace USD.NET.Unity {
     /// Transition between the two colors according to Schlick fresnel approximation.
     /// </summary>
     [InputParameter("_SpecularColor")]
-    public Connectable<Vector3> specularColor = new Connectable<Vector3>(Vector3.zero);
+    public Connectable<Color> specularColor = new Connectable<Color>(new Color(0,0,0));
 
     /// <summary>
     /// Use 1 for metallic surfaces and 0 for non-metallic.
