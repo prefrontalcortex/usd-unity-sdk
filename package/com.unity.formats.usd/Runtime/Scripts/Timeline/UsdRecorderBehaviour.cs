@@ -95,9 +95,13 @@ namespace Unity.Formats.USD {
         //  m_usdScene.Stage.SetTimeCodesPerSecond(1);
         //}
 
+        Clip.UsdScene.FrameRate = 60;
+        Clip.UsdScene.Stage.SetFramesPerSecond(60);
+        // Clip.UsdScene.Stage.SetTimeCodesPerSecond(60);
         // TODO: How does one extract the time mode (frames or seconds) from the Timeline?
-        Clip.UsdScene.Stage.SetFramesPerSecond(30);
-        Clip.UsdScene.Stage.SetTimeCodesPerSecond(1);
+        // Clip.UsdScene.Stage.SetFramesPerSecond(60);
+        // Clip.UsdScene.Stage.SetTimeCodesPerSecond(1);
+        Clip.UsdScene.Stage.SetInterpolationType(UsdInterpolationType.UsdInterpolationTypeLinear);
 
         // For simplicity in this example, adding game objects while recording is not supported.
         Clip.Context = new ExportContext();
@@ -106,7 +110,7 @@ namespace Unity.Formats.USD {
         Clip.Context.activePolicy = Clip.m_activePolicy;
         Clip.Context.exportMaterials = Clip.m_exportMaterials;
 
-        Clip.UsdScene.StartTime = currentTime;
+        Clip.UsdScene.StartTime = currentTime * 60;
 
         // Export the "default" frame, that is, all data which doesn't vary over time.
         Clip.UsdScene.Time = null;
@@ -140,7 +144,7 @@ namespace Unity.Formats.USD {
             Directory.SetCurrentDirectory(tmpDir.FullName);
 
         Clip.Context = new ExportContext();
-        Clip.UsdScene.EndTime = currentTime;
+        Clip.UsdScene.EndTime = currentTime * 60;
         // In a real exporter, additional error handling should be added here.
         if (!string.IsNullOrEmpty(Clip.m_usdFile)) {
           // We could use SaveAs here, which is fine for small scenes, though it will require
@@ -185,7 +189,7 @@ namespace Unity.Formats.USD {
         Debug.LogError("Process: context.scene is null");
       }
 
-      Clip.UsdScene.Time = currentTime;
+      Clip.UsdScene.Time = currentTime * 60; // HACK conversion to keyframes
       Clip.Context.exportMaterials = false;
       SceneExporter.Export(root, Clip.Context, zeroRootTransform: false);
     }
