@@ -53,6 +53,7 @@ namespace Unity.Formats.USD {
       }
       // Keep the current directory to restore it at the end.
       currentDir = Directory.GetCurrentDirectory();
+      var localScale = root.transform.localScale;
       try {
         if (string.IsNullOrEmpty(Clip.m_usdFile)) {
           Clip.UsdScene = Scene.Create();
@@ -114,6 +115,10 @@ namespace Unity.Formats.USD {
 
         // Export the "default" frame, that is, all data which doesn't vary over time.
         Clip.UsdScene.Time = null;
+
+        // USDZ is in centimeters.
+        if (Clip.IsUSDZ)
+          root.transform.localScale = localScale * 100;
         SceneExporter.SyncExportContext(root, Clip.Context);
         SceneExporter.Export(root,
                              Clip.Context,
@@ -128,6 +133,9 @@ namespace Unity.Formats.USD {
         tmpDir.Delete(recursive: true);
         throw;
       } finally {
+        // USDZ is in centimeters.
+        if (Clip.IsUSDZ)
+          root.transform.localScale = localScale;
         Directory.SetCurrentDirectory(currentDir);
       }
     }
@@ -191,7 +199,12 @@ namespace Unity.Formats.USD {
 
       Clip.UsdScene.Time = currentTime * 60; // HACK conversion to keyframes
       Clip.Context.exportMaterials = false;
+      var localScale = root.transform.localScale;
+      if (Clip.IsUSDZ)
+        root.transform.localScale = localScale * 100;
       SceneExporter.Export(root, Clip.Context, zeroRootTransform: false);
+      if (Clip.IsUSDZ)
+        root.transform.localScale = localScale;
     }
 
     bool IsPlaying() {
