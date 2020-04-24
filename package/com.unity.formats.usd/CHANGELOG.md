@@ -1,5 +1,11 @@
 # Changes in pfc Version
 
+## [1.0.3-pfc.1] - 2020-04-24
+- fixing texture export from memory (textures that are not on disk or not supported)
+- fix QuickLook animation export
+- fix texture properties (wrap and colorization)
+- add ability to export USDZ from timeline recorder clip
+
 ## [1.0.2-pfc.2] - 2020-01-16
 - re-released with com.unity scope
 
