@@ -29,7 +29,7 @@
     },
     "unity": "2018.3",
     "unityRelease": "4f1",
-    "version": "1.0.3-preview.1",
+    "version": "1.0.3-pfc.1",
     "samples": [
       {
         "displayName" : "ExportMesh",
