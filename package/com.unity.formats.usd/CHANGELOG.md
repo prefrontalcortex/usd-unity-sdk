@@ -1,5 +1,8 @@
 # Changes in pfc Version
 
+## [1.0.3-pfc.3] - 2020-04-25
+- fix InitUsd package scope (hardcoded)
+
 ## [1.0.3-pfc.2] - 2020-04-24
 - fixing texture export from memory (textures that are not on disk or not supported)
 - fix QuickLook animation export
