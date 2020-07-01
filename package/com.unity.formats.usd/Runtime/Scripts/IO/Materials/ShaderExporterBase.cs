@@ -23,6 +23,7 @@ namespace Unity.Formats.USD {
 
     public enum ConversionType {
       None,
+      Normal,
       SwapRASmoothnessToBGRoughness
     }
 
@@ -126,17 +127,18 @@ namespace Unity.Formats.USD {
             _normalChannelMaterial = new Material(normalChannelShader);
           }
 
-          Material conversionMat = null;
           switch(conversionType) {
             case ConversionType.None:
-              conversionMat = null;
+              Graphics.Blit(srcTexture2d, rt);
+              break;
+            case ConversionType.Normal:
+              Graphics.Blit(srcTexture2d, rt, _normalChannelMaterial);
               break;
             case ConversionType.SwapRASmoothnessToBGRoughness:
-              conversionMat = _metalGlossChannelSwapMaterial;
+              Graphics.Blit(srcTexture2d, rt, _metalGlossChannelSwapMaterial);
               break;
           }
 
-          Graphics.Blit(srcTexture2d, rt, conversionMat);
           resultTex2d.ReadPixels(new Rect(0, 0, srcTexture2d.width, srcTexture2d.height), 0, 0);
           resultTex2d.Apply();
 
@@ -180,6 +182,7 @@ namespace Unity.Formats.USD {
         if (scale != Vector4.one) {
           usdTexReader.scale = new Connectable<Vector4>(scale);
         }
+        // usdTexReader.isSRGB = new Connectable<TextureReaderSample.SRGBMode>(TextureReaderSample.SRGBMode.Auto);
         scene.Write(usdShaderPath + "/" + textureName, usdTexReader);
         return usdShaderPath + "/" + textureName + ".outputs:" + textureOutput;
       } else {
