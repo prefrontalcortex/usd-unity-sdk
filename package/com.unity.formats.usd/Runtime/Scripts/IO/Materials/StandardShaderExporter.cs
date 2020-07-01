@@ -219,32 +219,32 @@ namespace Unity.Formats.USD {
                                           string destTexturePath) {
       Color c;
 
-      // Export all generic parameter.
-      // These are not useful to UsdPreviewSurface, but enable perfect round-tripping.
-      surface.unity.shaderName = mat.shader.name;
-      surface.unity.shaderKeywords = mat.shaderKeywords;
+//       // Export all generic parameter.
+//       // These are not useful to UsdPreviewSurface, but enable perfect round-tripping.
+//       surface.unity.shaderName = mat.shader.name;
+//       surface.unity.shaderKeywords = mat.shaderKeywords;
       
-      // Unfortunately, parameter names can only be discovered generically in-editor.
-#if UNITY_EDITOR
-      for (int i = 0; i < UnityEditor.ShaderUtil.GetPropertyCount(mat.shader); i++) {
-        string name = UnityEditor.ShaderUtil.GetPropertyName(mat.shader, i);
-        if (!mat.HasProperty(name)) {
-          continue;
-        }
-        switch (UnityEditor.ShaderUtil.GetPropertyType(mat.shader, i)) {
-          case UnityEditor.ShaderUtil.ShaderPropertyType.Color:
-            surface.unity.colorArgs.Add(name, mat.GetColor(name).linear);
-            break;
-          case UnityEditor.ShaderUtil.ShaderPropertyType.Float:
-          case UnityEditor.ShaderUtil.ShaderPropertyType.Range:
-            surface.unity.floatArgs.Add(name, mat.GetFloat(name));
-            break;
-          case UnityEditor.ShaderUtil.ShaderPropertyType.Vector:
-            surface.unity.vectorArgs.Add(name, mat.GetVector(name));
-            break;
-        }
-      }
-#endif
+//       // Unfortunately, parameter names can only be discovered generically in-editor.
+// #if UNITY_EDITOR
+//       for (int i = 0; i < UnityEditor.ShaderUtil.GetPropertyCount(mat.shader); i++) {
+//         string name = UnityEditor.ShaderUtil.GetPropertyName(mat.shader, i);
+//         if (!mat.HasProperty(name)) {
+//           continue;
+//         }
+//         switch (UnityEditor.ShaderUtil.GetPropertyType(mat.shader, i)) {
+//           case UnityEditor.ShaderUtil.ShaderPropertyType.Color:
+//             surface.unity.colorArgs.Add(name, mat.GetColor(name).linear);
+//             break;
+//           case UnityEditor.ShaderUtil.ShaderPropertyType.Float:
+//           case UnityEditor.ShaderUtil.ShaderPropertyType.Range:
+//             surface.unity.floatArgs.Add(name, mat.GetFloat(name));
+//             break;
+//           case UnityEditor.ShaderUtil.ShaderPropertyType.Vector:
+//             surface.unity.vectorArgs.Add(name, mat.GetVector(name));
+//             break;
+//         }
+//       }
+// #endif
 
       if (mat.HasProperty("_MainTex") && mat.GetTexture("_MainTex") != null) {
         var scale = new Vector4(1, 1, 1, 1);
@@ -296,7 +296,7 @@ namespace Unity.Formats.USD {
       surface.useSpecularWorkflow.defaultValue = 1;
 
       if (mat.HasProperty("_BumpMap") && mat.GetTexture("_BumpMap") != null) {
-        var newTex = SetupTexture(scene, usdShaderPath, mat, surface, Vector4.one, destTexturePath, "_BumpMap", "rgb");
+        var newTex = SetupTexture(scene, usdShaderPath, mat, surface, Vector4.one, destTexturePath, "_BumpMap", "rgb", ConversionType.None);
         surface.normal.SetConnectedPath(newTex);
       }
 
