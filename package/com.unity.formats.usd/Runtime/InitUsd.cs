@@ -83,7 +83,7 @@ namespace Unity.Formats.USD {
       supPath += @"/share/";
 #endif
 
-      Debug.LogFormat("Registering plugins: {0}", supPath);
+      // Debug.LogFormat("Registering plugins: {0}", supPath);
       pxr.PlugRegistry.GetInstance().RegisterPlugins(supPath);
     }
   }
