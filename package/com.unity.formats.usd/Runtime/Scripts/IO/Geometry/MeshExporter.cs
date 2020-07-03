@@ -195,6 +195,19 @@ namespace Unity.Formats.USD {
       UnityEngine.Profiling.Profiler.EndSample();
     }
 
+
+    static void Dump(MeshSample sample)
+    {
+      var so = ScriptableObject.CreateInstance<MeshDump>();
+      so.points = new List<Vector3>(sample.points);
+      so.normals = new List<Vector3>(sample.normals);
+      so.tangents = new List<Vector4>(sample.tangents);
+      so.uv = new List<Vector2>((Vector2[])sample.st);
+      so.faceVertexCounts = new List<int>(sample.faceVertexCounts);
+      so.faceVertexIndices = new List<int>(sample.faceVertexIndices);
+      UnityEditor.AssetDatabase.CreateAsset(so, "Assets/mesh-dump.asset");
+    }
+
     static void ExportMesh(ObjectContext objContext,
                    ExportContext exportContext,
                    Mesh mesh,
@@ -305,6 +318,12 @@ namespace Unity.Formats.USD {
           opacityPrimvar.SetInterpolation(pxr.UsdGeomTokens.constant);
         }
 
+        var usdPrim2 = scene.GetPrimAtPath(path);
+        var attr = new pxr.UsdGeomPrimvar(usdPrim2.GetAttribute(pxr.UsdGeomTokens.normals));
+        Debug.Log("normals interpolation: " + attr.GetInterpolation());
+
+        Dump(sample);
+
         string usdMaterialPath;
         if (exportContext.exportMaterials && sharedMaterial != null) {
           if (!exportContext.matMap.TryGetValue(sharedMaterial, out usdMaterialPath)) {
@@ -313,6 +332,8 @@ namespace Unity.Formats.USD {
             MaterialSample.Bind(scene, path, usdMaterialPath);
           }
         }
+
+        Debug.Log("submeshes: " + mesh.subMeshCount);
 
         // In USD subMeshes are represented as UsdGeomSubsets.
         // When there are multiple subMeshes, convert them into UsdGeomSubsets.
@@ -372,23 +393,37 @@ namespace Unity.Formats.USD {
             new pxr.SdfPath(path).IsRootPrimPath(),
             exportContext.basisTransform);
 
-        if (exportMeshPose) {
+        if (exportMeshPose && false) {
           meshSample.points = mesh.vertices;
 
           // Set face vertex counts and indices.
           var tris = mesh.triangles;
 
           if (slowAndSafeConversion) {
+
+            Debug.Log("animated points!!");
+            if(true) {
+
             // Unity uses a forward vector that matches DirectX, but USD matches OpenGL, so a change
             // of basis is required. There are shortcuts, but this is fully general.
             for (int i = 0; i < meshSample.points.Length; i++) {
               meshSample.points[i] = UnityTypeConverter.ChangeBasis(meshSample.points[i]);
+              if (meshSample.normals != null && meshSample.normals.Length == meshSample.points.Length) {
+                meshSample.normals[i] = UnityTypeConverter.ChangeBasis(meshSample.normals[i]);
+              }
+              if (meshSample.tangents != null && meshSample.tangents.Length == meshSample.points.Length) {
+                var w = meshSample.tangents[i].w;
+                var t = UnityTypeConverter.ChangeBasis(meshSample.tangents[i]);
+                meshSample.tangents[i] = new Vector4(t.x, t.y, t.z, w);
+              }
             }
 
             for (int i = 0; i < tris.Length; i += 3) {
               var t = tris[i];
               tris[i] = tris[i + 1];
               tris[i + 1] = t;
+            }
+
             }
           }
 
