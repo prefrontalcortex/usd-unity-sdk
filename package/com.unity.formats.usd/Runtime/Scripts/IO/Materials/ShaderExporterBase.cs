@@ -23,12 +23,10 @@ namespace Unity.Formats.USD {
 
     public enum ConversionType {
       None,
-      Normal,
       SwapRASmoothnessToBGRoughness
     }
 
     static Material _metalGlossChannelSwapMaterial = null;
-    static Material _normalChannelMaterial = null;
 
     /// <summary>
     /// Exports the given texture to the destination texture path and wires up the preview surface.
@@ -118,23 +116,24 @@ namespace Unity.Formats.USD {
           GL.Clear(true, true, Color.clear);
 
           // conversion material
-          if(_metalGlossChannelSwapMaterial == null) {
-            var metalGlossChannelSwapShader = Resources.Load("MetalGlossChannelSwap", typeof(Shader)) as Shader;
-            _metalGlossChannelSwapMaterial = new Material(metalGlossChannelSwapShader);
-          }
-          if(_normalChannelMaterial == null) {
-            var normalChannelShader = Resources.Load("NormalChannel", typeof(Shader)) as Shader;
-            _normalChannelMaterial = new Material(normalChannelShader);
+          if(_metalGlossChannelSwapMaterial == null)
+          {
+            _metalGlossChannelSwapMaterial = new Material(Shader.Find("Hidden/USD/ChannelCombiner"));
+            _metalGlossChannelSwapMaterial.SetVector("_Invert", new Vector4(0,1,0,1)); // invert resulting g channel, make sure alpha is 1
+            _metalGlossChannelSwapMaterial.SetVector("_RScale", new Vector4(0,0,0,0));
+            _metalGlossChannelSwapMaterial.SetVector("_GScale", new Vector4(0,0,0,1)); // use a channel from _G texture for resulting g
+            _metalGlossChannelSwapMaterial.SetVector("_BScale", new Vector4(1,0,0,0)); // use r channel from _B texture for resulting b
+            _metalGlossChannelSwapMaterial.SetVector("_AScale", new Vector4(0,0,0,0));
           }
 
           switch(conversionType) {
             case ConversionType.None:
               Graphics.Blit(srcTexture2d, rt);
               break;
-            case ConversionType.Normal:
-              Graphics.Blit(srcTexture2d, rt, _normalChannelMaterial);
-              break;
             case ConversionType.SwapRASmoothnessToBGRoughness:
+              _metalGlossChannelSwapMaterial.SetTexture("_G", srcTexture2d);
+              _metalGlossChannelSwapMaterial.SetTexture("_B", srcTexture2d);
+              
               Graphics.Blit(srcTexture2d, rt, _metalGlossChannelSwapMaterial);
               break;
           }
