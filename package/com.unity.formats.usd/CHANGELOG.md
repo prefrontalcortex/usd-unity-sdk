@@ -1,5 +1,12 @@
 # Changes in pfc Version
 
+## [1.0.3-pfc.4] - 2020-07-07
+- fixed PBR export for standard
+- improved ChannelCombiner to combine textures on export
+- improved texture handling on export
+- removed some unnecessary logs
+- added examples for PBR export
+
 ## [1.0.3-pfc.3] - 2020-04-25
 - fix InitUsd package scope (hardcoded)
 
