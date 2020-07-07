@@ -275,21 +275,6 @@ namespace Unity.Formats.USD {
         var tris = mesh.triangles;
 
         if (slowAndSafeConversion) {
-          // Unity uses a forward vector that matches DirectX, but USD matches OpenGL, so a change
-          // of basis is required. There are shortcuts, but this is fully general.
-
-          for (int i = 0; i < sample.points.Length; i++) {
-            sample.points[i] = UnityTypeConverter.ChangeBasis(sample.points[i]);
-            if (sample.normals != null && sample.normals.Length == sample.points.Length) {
-              sample.normals[i] = UnityTypeConverter.ChangeBasis(sample.normals[i]);
-            }
-            if (sample.tangents != null && sample.tangents.Length == sample.points.Length) {
-              var w = sample.tangents[i].w;
-              var t = UnityTypeConverter.ChangeBasis(sample.tangents[i]);
-              sample.tangents[i] = new Vector4(t.x, t.y, t.z, w);
-            }
-          }
-
           for (int i = 0; i < tris.Length; i += 3) {
             var t = tris[i];
             tris[i] = tris[i + 1];
@@ -301,6 +286,23 @@ namespace Unity.Formats.USD {
 
         // for polygonal meshes, we need to properly pack the normals based on the new vertex indices
         sample.normals = PackFaceVarying(mesh, sample);
+
+        if(slowAndSafeConversion) {
+          // Unity uses a forward vector that matches DirectX, but USD matches OpenGL, so a change
+          // of basis is required. There are shortcuts, but this is fully general.
+
+          for (int i = 0; i < sample.points.Length; i++) {
+            sample.points[i] = UnityTypeConverter.ChangeBasis(sample.points[i]);
+            if (sample.normals != null) {// && sample.normals.Length == sample.points.Length) {
+              sample.normals[i] = UnityTypeConverter.ChangeBasis(sample.normals[i]);
+            }
+            if (sample.tangents != null) {// && sample.tangents.Length == sample.points.Length) {
+              var w = sample.tangents[i].w;
+              var t = UnityTypeConverter.ChangeBasis(sample.tangents[i]);
+              sample.tangents[i] = new Vector4(t.x, t.y, t.z, w);
+            }
+          }
+        }
 
         UnityEngine.Profiling.Profiler.BeginSample("USD: Mesh Write");
         scene.Write(path, sample);
