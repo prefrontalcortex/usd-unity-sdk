@@ -1,6 +1,6 @@
 # Changes in pfc Version
 
-## [1.0.3-pfc.6] - 2020-07-12
+## [1.0.3-pfc.7] - 2020-07-12
 - ignore test files in releases
 - fix meta file for Tests folder
 
