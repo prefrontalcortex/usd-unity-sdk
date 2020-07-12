@@ -6,3 +6,4 @@ upm-ci~/**
 TestRunnerOptions.json
 .idea/**
 Tests/**
+Tests.meta

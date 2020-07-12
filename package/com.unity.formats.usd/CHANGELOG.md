@@ -1,7 +1,8 @@
 # Changes in pfc Version
 
-## [1.0.3-pfc.5] - 2020-07-12
+## [1.0.3-pfc.6] - 2020-07-12
 - ignore test files in releases
+- fix meta file for Tests folder
 
 ## [1.0.3-pfc.4] - 2020-07-07
 - fixed PBR export for standard
