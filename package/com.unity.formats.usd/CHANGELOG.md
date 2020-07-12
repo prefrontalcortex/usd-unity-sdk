@@ -1,5 +1,8 @@
 # Changes in pfc Version
 
+## [1.0.3-pfc.5] - 2020-07-12
+- ignore test files in releases
+
 ## [1.0.3-pfc.4] - 2020-07-07
 - fixed PBR export for standard
 - improved ChannelCombiner to combine textures on export
