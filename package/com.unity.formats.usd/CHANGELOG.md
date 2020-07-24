@@ -1,5 +1,10 @@
 # Changes in pfc Version
 
+## [1.0.3-pfc.8] - 2020-07-24
+- better PBR export for both built-in and HDRP
+- fix texture export from disk in packages
+- fix texture conversion in some edge cases
+
 ## [1.0.3-pfc.7] - 2020-07-12
 - ignore test files in releases
 - fix meta file for Tests folder
