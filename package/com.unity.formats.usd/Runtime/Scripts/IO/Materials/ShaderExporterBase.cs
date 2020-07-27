@@ -145,7 +145,7 @@ namespace Unity.Formats.USD {
           fileName = srcTexture2d.name + "_" + srcTexture2d.imageContentsHash.ToString();
         else
           fileName = srcTexture2d.name + "_" + Random.Range(10000000, 99999999).ToString();
-        filePath = System.IO.Path.Combine(destTexturePath, fileName + ".png");
+        filePath = System.IO.Path.Combine(destTexturePath, fileName + ".jpg");
 
         // TODO extra care has to be taken of Normal Maps etc., since these are in a converted format in memory (for example 16 bit AG instead of 8 bit RGBA, depending on platform)
         // An example of this conversion in a shader is in Khronos' UnityGLTF implementation.
@@ -220,7 +220,7 @@ namespace Unity.Formats.USD {
           resultTex2d.ReadPixels(new Rect(0, 0, srcTexture2d.width, srcTexture2d.height), 0, 0);
           resultTex2d.Apply();
 
-          System.IO.File.WriteAllBytes(filePath, resultTex2d.EncodeToPNG());
+          System.IO.File.WriteAllBytes(filePath, resultTex2d.EncodeToJPG());
           if (System.IO.File.Exists(filePath)) {
             textureIsExported = true;
           }
@@ -237,7 +237,7 @@ namespace Unity.Formats.USD {
         try {
           tmpTex2d.SetPixel(0, 0, Color.white);
           tmpTex2d.Apply();
-          System.IO.File.WriteAllBytes(filePath, tmpTex2d.EncodeToPNG());
+          System.IO.File.WriteAllBytes(filePath, tmpTex2d.EncodeToJPG());
           if (System.IO.File.Exists(filePath)) {
             textureIsExported = true;
           }
