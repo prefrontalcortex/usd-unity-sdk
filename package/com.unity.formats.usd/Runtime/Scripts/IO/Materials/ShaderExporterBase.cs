@@ -70,6 +70,10 @@ namespace Unity.Formats.USD {
       var srcTexture2d = material.GetTexture(textureName);
 
       bool needsConversion = false;
+      
+      // PAUL HACK
+      needsConversion = true;
+
       switch(conversionType) {
         case ConversionType.None:
           break;
