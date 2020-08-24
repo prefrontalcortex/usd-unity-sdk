@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using pxr;
 using Unity.Formats.USD;
 using UnityEngine;
 using USD.NET;
@@ -10,17 +11,18 @@ public class AudioExporter
 {
     public static void ExportAudio(ObjectContext objContext, ExportContext exportContext) {
         AudioSource mf = objContext.gameObject.GetComponent<AudioSource>();
-
+        
         UnityEngine.Profiling.Profiler.BeginSample("USD: Audio");
 
         ExportAudio(objContext,
             exportContext,
+            mf,
             mf.clip);
 
         UnityEngine.Profiling.Profiler.EndSample();
     }
 
-    static void ExportAudio(ObjectContext objContext, ExportContext exportContext, AudioClip audioClip) {
+    static void ExportAudio(ObjectContext objContext, ExportContext exportContext, AudioSource audioSource, AudioClip audioClip) {
         string path = objContext.path;
         var scene = exportContext.scene;
         
@@ -35,6 +37,11 @@ public class AudioExporter
             filePath = ImporterBase.MakeRelativePath(scene.FilePath, clipPath);
         filePath = filePath.Replace("\\", "/");
         
+        // http://graphics.pixar.com/usd/docs/UsdAudio-Proposal.html
+        sample.auralMode = new TfToken(audioSource.spatialBlend > 0.5f ? "spatial" : "nonSpatial");
+        Debug.Log(audioSource + ": " + audioClip + ": " + sample.auralMode.ToString());
+        sample.playbackMode = new TfToken(audioSource.loop ? "loopFromStage" : "onceFromStart");
+        sample.gain.defaultValue = audioSource.volume;
         sample.filePath.defaultValue = new pxr.SdfAssetPath(filePath);
 
         scene.Write(path, sample);
