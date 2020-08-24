@@ -1,5 +1,12 @@
 # Changes in pfc Version
 
+## [1.0.3-pfc.9] - 2020-08-24
+- added experimental UsdAudio support
+  - support for looping / non-looping audio
+  - support for spatial / non-spatial audio
+  - no support for audio clips in Timeline yet;
+    needs to be an AudioSource in the scene to be exported
+
 ## [1.0.3-pfc.8] - 2020-07-24
 - better PBR export for both built-in and HDRP
 - fix texture export from disk in packages
