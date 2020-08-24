@@ -25,8 +25,8 @@ namespace USD.NET.Unity {
     }
     
     public SpatialAudioSample() : base() {
-      auralMode = new pxr.TfToken("nonSpatial");
-      playbackMode = new pxr.TfToken("loopFromStage");
+      auralMode = new pxr.TfToken("spatial");
+      playbackMode = new pxr.TfToken("onceFromStart");
       startTime = 0;
     }
     
@@ -46,5 +46,13 @@ namespace USD.NET.Unity {
     
     [UsdVariability(Variability.Uniform)]
     public pxr.UsdTimeCode startTime;
+    
+    [UsdVariability(Variability.Uniform)]
+    public pxr.UsdTimeCode endTime;
+
+    [UsdVariability(Variability.Uniform)]
+    public double mediaOffset;
+
+    public Connectable<double> gain = new Connectable<double>(1.0);
   }
 }
