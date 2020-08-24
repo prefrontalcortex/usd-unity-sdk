@@ -17,29 +17,34 @@ using UnityEngine;
 namespace USD.NET.Unity {
 
   [System.Serializable]
-  [UsdSchema("UsdMediaSpatialAudio")]
-  public class SpatialAudio : pxr.UsdGeomXformable {
-    public static SpatialAudio FromTransform(UnityEngine.AudioSource audioSource) {
-      var xf = new SpatialAudio();
+  [UsdSchema("SpatialAudio")]
+  public class SpatialAudioSample : XformableSample {
+    public static SpatialAudioSample FromTransform(UnityEngine.AudioSource audioSource) {
+      var xf = new SpatialAudioSample();
       return xf;
     }
     
-    public SpatialAudio() : base() {
+    public SpatialAudioSample() : base() {
       auralMode = new pxr.TfToken("nonSpatial");
       playbackMode = new pxr.TfToken("loopFromStage");
       startTime = 0;
     }
     
-    public SpatialAudio(string path) : this() {
+    public SpatialAudioSample(string path) : this() {
       filePath.defaultValue = new pxr.SdfAssetPath(path);
     }
     
-    [InputParameter("_File")]
+    [UsdVariability(Variability.Uniform)]
     public Connectable<pxr.SdfAssetPath> filePath =
       new Connectable<pxr.SdfAssetPath>(new pxr.SdfAssetPath(""));
     
+    [UsdVariability(Variability.Uniform)]
     public pxr.TfToken auralMode;
+    
+    [UsdVariability(Variability.Uniform)]
     public pxr.TfToken playbackMode;
+    
+    [UsdVariability(Variability.Uniform)]
     public pxr.UsdTimeCode startTime;
   }
 }
