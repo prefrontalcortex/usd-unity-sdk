@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Geometry\BasisCurvesSample.cs" />
+    <Compile Include="Geometry\SpatialAudioSample.cs" />
     <Compile Include="Geometry\PointBasedSample.cs" />
     <Compile Include="Geometry\ImageableSample.cs" />
     <Compile Include="Geometry\SphereSample.cs" />

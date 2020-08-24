@@ -465,6 +465,7 @@ namespace Unity.Formats.USD {
       var mr = go.GetComponent<MeshRenderer>();
       var mf = go.GetComponent<MeshFilter>();
       var cam = go.GetComponent<Camera>();
+      var audio = go.GetComponent<AudioSource>();
       Transform expRoot = context.exportRoot;
 
       var tmpPath = new pxr.SdfPath(UnityTypeConverter.GetPath(go.transform, expRoot));
@@ -515,6 +516,8 @@ namespace Unity.Formats.USD {
       } else if (cam) {
         CreateExportPlan(go, CreateSample<CameraSample>(context), CameraExporter.ExportCamera, context);
         CreateExportPlan(go, CreateSample<CameraSample>(context), NativeExporter.ExportObject, context, insertFirst: false);
+      } else if (audio) {
+        CreateExportPlan(go, CreateSample<SpatialAudioSample>(context), AudioExporter.ExportAudio, context);
       }
     }
 
