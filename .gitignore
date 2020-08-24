@@ -64,3 +64,4 @@ TestProject/Logs
 TestProject/Assets/Plugins
 TestProject/Assets/Samples*
 inst-dbg/
+TestProject/.vs
