@@ -66,3 +66,4 @@ TestProject/Assets/Samples*
 inst-dbg/
 TestProject/.vs
 package/com.unity.formats.usd/Runtime/Scripts/IO/Geometry/.idea
+TestProject/Exports
