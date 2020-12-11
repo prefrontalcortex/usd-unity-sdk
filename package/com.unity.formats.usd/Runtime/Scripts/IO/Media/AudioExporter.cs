@@ -31,8 +31,13 @@ namespace Unity.Formats.USD {
             var sample = (SpatialAudioSample) objContext.sample;
 
             var texPath = System.IO.Path.GetDirectoryName(scene.FilePath);
-            var clipPath = SetupAudioClip(scene, texPath, objContext.gameObject.GetComponent<AudioSource>().clip);
-
+            var source = objContext.gameObject.GetComponent<AudioSource>();
+            if (!source) return;
+            var clip = source.clip;
+            if (!clip) return;
+            var clipPath = SetupAudioClip(scene, texPath, clip);
+            if (string.IsNullOrEmpty(clipPath)) return;
+            
             var filePath = clipPath;
             if(Path.IsPathRooted(clipPath))
                 filePath = ImporterBase.MakeRelativePath(scene.FilePath, clipPath);

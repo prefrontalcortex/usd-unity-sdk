@@ -237,6 +237,7 @@ namespace Unity.Formats.USD {
           UnityEngine.Profiling.Profiler.BeginSample("USD: Process Visibility");
           try {
             if (!go.gameObject.activeSelf) {
+              var prim = scene.GetPrimAtPath(path);
               switch (context.activePolicy) {
                 case ActiveExportPolicy.Ignore:
                   // Nothing to see here.
@@ -244,7 +245,8 @@ namespace Unity.Formats.USD {
 
                 case ActiveExportPolicy.ExportAsVisibility:
                   // Make the prim invisible.
-                  var im = new pxr.UsdGeomImageable(scene.GetPrimAtPath(path));
+                  if (prim == null) break;
+                  var im = new pxr.UsdGeomImageable(prim);
                   if (im) {
                     im.CreateVisibilityAttr().Set(pxr.UsdGeomTokens.invisible);
                   }
@@ -255,6 +257,7 @@ namespace Unity.Formats.USD {
                   // the USD scene graph. Right now, that's too much responsibility on the caller,
                   // because the error messages will be mysterious.
 
+                  if (prim == null) break;
                   // Make the prim inactive.
                   scene.GetPrimAtPath(path).SetActive(false);
                   break;
