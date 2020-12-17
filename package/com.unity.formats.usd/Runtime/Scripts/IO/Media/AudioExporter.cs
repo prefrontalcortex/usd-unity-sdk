@@ -46,8 +46,8 @@ namespace Unity.Formats.USD {
             // http://graphics.pixar.com/usd/docs/UsdAudio-Proposal.html
             sample.auralMode = new TfToken(audioSource.spatialBlend > 0.5f ? "spatial" : "nonSpatial");
             // Debug.Log(audioSource + ": " + audioClip + ": " + sample.auralMode.ToString());
-            
-            sample.playbackMode = new TfToken(audioSource.loop ? "loopFromStage" : "onceFromStart");
+
+            sample.playbackMode = new TfToken(audioSource.loop ? "loopFromStage" : "onceFromStart"); // once we have Value Clips (sequencing/timeline) support, "loopFromStart" becomes interesting
             sample.gain.defaultValue = audioSource.volume;
             sample.filePath.defaultValue = new pxr.SdfAssetPath(filePath);
 
