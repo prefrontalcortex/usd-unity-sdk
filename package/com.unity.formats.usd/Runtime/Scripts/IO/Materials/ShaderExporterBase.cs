@@ -38,7 +38,7 @@ namespace Unity.Formats.USD {
     /// <returns>
     /// Returns the path to the USD texture object.
     /// </returns>
-    protected static string SetupTexture(Scene scene,
+    public static string SetupTexture(Scene scene,
                                  string usdShaderPath,
                                  Material material,
                                  PreviewSurfaceSample surface,
