@@ -33,6 +33,8 @@ namespace Unity.Formats.USD {
     // The path to where the USD file will be written.
     // If null/empty, the file will be created in memory only.
     public string m_usdFile = "Assets/recording.usd";
+    public bool overrideEndTime;
+    public float endTime;
 
     // The scene object to which the recording will be saved.
     public Scene UsdScene { get; set; }
