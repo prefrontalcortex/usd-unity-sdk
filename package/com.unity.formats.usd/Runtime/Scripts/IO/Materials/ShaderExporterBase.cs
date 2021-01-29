@@ -71,7 +71,10 @@ namespace Unity.Formats.USD
 
             var srcTexture2d = material.GetTexture(textureName);
 
+            #pragma warning disable 219 // always false in Editor
             bool needsConversion = false;
+            #pragma warning restore
+
             switch (conversionType)
             {
                 case ConversionType.None:
@@ -116,13 +119,13 @@ namespace Unity.Formats.USD
                 if (!string.IsNullOrEmpty(srcPath))
                 {
 #if UNITY_2019_2_OR_GREATER
-          // Since textures might be inside of packages for various reasons we should support that.
-          // Usually this would just be "Path.GetFullPath(srcPath)", but USD export messes with the CWD (Working Directory)
-          // and so we have to do a bit more path wrangling here.
-          if(srcPath.StartsWith("Packages")) {
-            var pi = UnityEditor.PackageManager.PackageInfo.FindForAssetPath(srcPath);
-            srcPath = pi.resolvedPath + srcPath.Substring(("Packages/" + pi.name).Length);
-          }
+                    // Since textures might be inside of packages for various reasons we should support that.
+                    // Usually this would just be "Path.GetFullPath(srcPath)", but USD export messes with the CWD (Working Directory)
+                    // and so we have to do a bit more path wrangling here.
+                    if(srcPath.StartsWith("Packages")) {
+                        var pi = UnityEditor.PackageManager.PackageInfo.FindForAssetPath(srcPath);
+                        srcPath = pi.resolvedPath + srcPath.Substring(("Packages/" + pi.name).Length);
+                    }
 #endif
                     if (srcPath.StartsWith("Assets"))
                     {
