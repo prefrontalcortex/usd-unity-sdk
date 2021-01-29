@@ -1,5 +1,11 @@
 # Changes in pfc Version
 
+## [2.0.0-pfc] - 2021-01-30
+- updated/rebased to unity package 2.0.0-exp.1 as base
+- fixed nullrefs when trying to export audio clips that are null or disabled
+- fixed in-prefab parenting issues on export
+- changed SetupTexture to be public so other material exporters can use it
+
 ## [1.0.3-pfc.9] - 2020-08-24
 - added experimental UsdAudio support
   - support for looping / non-looping audio
