@@ -27,7 +27,7 @@ namespace Unity.Formats.USD
     public class UsdRecorderBehaviour : PlayableBehaviour
     {
         // Conversion to keyframes (60 frames per second) to work around QuickLook bug
-        const int kExportFrameRate = 60;
+        internal const int kExportFrameRate = 60;
         bool m_isPaused = false;
         public UsdRecorderClip Clip;
         string usdcFileName;
