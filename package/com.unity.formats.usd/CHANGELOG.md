@@ -1,5 +1,9 @@
 # Changes in pfc Version
 
+## [2.0.0-pfc.2] - 2021-03-08
+- fixed local paths in packages
+- added ability to export non-animated files with audio (sets EndTime correctly)
+
 ## [2.0.0-pfc] - 2021-01-30
 - updated/rebased to unity package 2.0.0-exp.1 as base
 - fixed nullrefs when trying to export audio clips that are null or disabled
