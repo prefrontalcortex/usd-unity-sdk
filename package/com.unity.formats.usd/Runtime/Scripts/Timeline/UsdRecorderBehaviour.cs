@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using UnityEngine;
 using UnityEngine.Playables;
 using USD.NET;
@@ -133,11 +134,11 @@ namespace Unity.Formats.USD
                     Clip.Context,
                     zeroRootTransform: false);
             }
-            catch
+            catch (Exception e)
             {
                 if (Clip.UsdScene != null)
                 {
-                    Debug.LogError("Set scene to null");
+                    Debug.LogError("Set scene to null because: " + e);
                     Clip.UsdScene.Close();
                     Clip.UsdScene = null;
                 }

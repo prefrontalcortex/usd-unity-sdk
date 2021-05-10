@@ -576,7 +576,15 @@ namespace Unity.Formats.USD
                 }
                 else if (smr.bones == null || smr.bones.Length == 0)
                 {
-                    Debug.LogWarning("No bones at: " + UnityTypeConverter.GetPath(go.transform, expRoot));
+                    if (smr.sharedMesh.blendShapeCount > 0)
+                    {
+                        context.meshToSkelRoot.Add(smr.transform, smr.rootBone);
+                        context.meshToBones.Add(smr.transform, new Transform[] {});
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No bones at: " + UnityTypeConverter.GetPath(go.transform, expRoot));
+                    }
                 }
                 else
                 {

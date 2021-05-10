@@ -215,6 +215,23 @@ namespace Unity.Formats.USD
             sample.translations = UnityTypeConverter.FromVtArray(translations);
             sample.rotations = UnityTypeConverter.FromVtArray(rotations);
 
+            // blendShape / weights support
+            var smr = skelRoot.GetComponentInChildren<SkinnedMeshRenderer>();
+            if(smr)
+            {
+                var mesh = smr.sharedMesh;
+                if (mesh && mesh.blendShapeCount > 0)
+                {
+                    sample.blendShapes = new string[mesh.blendShapeCount];
+                    sample.blendShapeWeights = new float[mesh.blendShapeCount];
+                    for (int i = 0; i < mesh.blendShapeCount; i++)
+                    {
+                        sample.blendShapes[i] = mesh.GetBlendShapeName(i);
+                        sample.blendShapeWeights[i] = smr.GetBlendShapeWeight(i);
+                    }
+                }
+            }
+
             scene.Write(objContext.path, sample);
         }
     }
