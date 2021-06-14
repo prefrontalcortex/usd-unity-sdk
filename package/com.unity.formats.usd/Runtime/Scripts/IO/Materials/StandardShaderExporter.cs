@@ -370,18 +370,20 @@ namespace Unity.Formats.USD
 
             if (shaderMode != StandardShaderBlendMode.Opaque)
             {
+                var colorPropertyName = mat.HasProperty("_BaseColor") ? "_BaseColor" : "_Color";
                 if (mat.HasProperty("_MainTex") && mat.GetTexture("_MainTex") != null)
                 {
                     var scale = Vector4.one;
-                    if (mat.HasProperty("_BaseColor"))
-                        scale.w = mat.GetColor("_BaseColor").linear.a;
+                    if (mat.HasProperty(colorPropertyName))
+                        scale.w = mat.GetColor(colorPropertyName).linear.a;
                     var newTex = SetupTexture(scene, usdShaderPath, mat, surface, scale, destTexturePath, "_MainTex",
                         "a");
+
                     surface.opacity.SetConnectedPath(newTex);
                 }
-                else if (mat.HasProperty("_Color"))
+                else if (mat.HasProperty(colorPropertyName))
                 {
-                    c = mat.GetColor("_Color").linear;
+                    c = mat.GetColor(colorPropertyName).linear;
                     surface.opacity.defaultValue = c.a;
                 }
                 else
